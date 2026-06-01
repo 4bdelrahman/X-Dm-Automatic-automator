@@ -218,7 +218,23 @@ async function runCampaign(options = {}) {
     const page = await context.newPage();
 
     // ── Login to X ─────────────────────────────────────────────
-    await loginToX(page);
+    if (process.env.X_COOKIES) {
+      log('info', 'Using provided X_COOKIES for authentication...');
+      try {
+        const cookies = JSON.parse(process.env.X_COOKIES);
+        await context.addCookies(cookies);
+        
+        // Go to home to verify login and set up local storage/session properly
+        await page.goto('https://x.com/home', { waitUntil: 'domcontentloaded' });
+        await randomDelay(2000, 3000);
+        log('success', 'Logged into X using cookies successfully');
+      } catch (e) {
+        log('error', 'Failed to use X_COOKIES. Ensure it is valid JSON.', { error: e.message });
+        throw e;
+      }
+    } else {
+      await loginToX(page);
+    }
 
     // ── Send DMs ───────────────────────────────────────────────
     for (let i = 0; i < pendingLeads.length; i++) {
