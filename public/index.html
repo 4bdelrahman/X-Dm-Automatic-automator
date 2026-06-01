@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>𝕏 Follow-Up Automation Dashboard</title>
+  <meta name="description" content="Manage your X.com outreach follow-up sequences, leads, and message templates." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">𝕏</span>
+      <span class="logo-text">FollowUp</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-item" data-page="leads" id="nav-leads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Leads
+        <span class="nav-badge" id="nav-leads-count">0</span>
+      </a>
+      <a href="#" class="nav-item" data-page="templates" id="nav-templates">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        Templates
+      </a>
+      <a href="#" class="nav-item" data-page="sequences" id="nav-sequences">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Sequences
+      </a>
+      <a href="#" class="nav-item" data-page="automation" id="nav-automation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Automation
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="mode-badge" id="mode-badge">DRY RUN</div>
+      <div class="sidebar-status">
+        <span class="status-dot" id="scheduler-dot"></span>
+        <span id="scheduler-label">Scheduler</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ═══ DASHBOARD PAGE ═══ -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-subtitle">Your outreach overview at a glance</p>
+        </div>
+        <button class="btn btn-primary" id="btn-trigger">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Run Now
+        </button>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:linear-gradient(135deg,#667eea,#764ba2)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-total-leads">—</span>
+            <span class="stat-label">Total Leads</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:linear-gradient(135deg,#4facfe,#00f2fe)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-sent">—</span>
+            <span class="stat-label">DMs Sent</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-replied">—</span>
+            <span class="stat-label">Replied</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:linear-gradient(135deg,#fa709a,#fee140)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-conversion">—%</span>
+            <span class="stat-label">Reply Rate</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:linear-gradient(135deg,#f093fb,#f5576c)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-pending">—</span>
+            <span class="stat-label">Pending Follow-ups</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:linear-gradient(135deg,#ffecd2,#fcb69f)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="stat-info">
+            <span class="stat-value" id="stat-daily-limit">—</span>
+            <span class="stat-label">Today's Remaining</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two column lower section -->
+      <div class="dashboard-grid">
+        <!-- Upcoming Follow-ups -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">📅 Upcoming Follow-ups</h2>
+          </div>
+          <div class="card-body" id="upcoming-list">
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">⚡ Recent Activity</h2>
+          </div>
+          <div class="card-body" id="activity-list">
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LEADS PAGE ═══ -->
+    <div class="page" id="page-leads">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Leads</h1>
+          <p class="page-subtitle">Manage your outreach targets</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-accent" id="btn-scrape-dms">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Import from 𝕏 DMs
+          </button>
+          <button class="btn btn-outline" id="btn-import-csv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Import CSV
+          </button>
+          <button class="btn btn-primary" id="btn-add-lead">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Lead
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <input type="text" class="search-input" id="leads-search" placeholder="Search by handle, name, notes..." />
+        <select class="filter-select" id="leads-status-filter">
+          <option value="">All Statuses</option>
+          <option value="new">New</option>
+          <option value="contacted">Contacted</option>
+          <option value="follow_up_1">Follow-up 1</option>
+          <option value="follow_up_2">Follow-up 2</option>
+          <option value="follow_up_3">Follow-up 3</option>
+          <option value="replied">Replied</option>
+          <option value="converted">Converted</option>
+          <option value="no_response">No Response</option>
+          <option value="paused">Paused</option>
+        </select>
+        <button class="btn btn-sm btn-outline" id="btn-start-seq-bulk">▶ Start Sequence for Selected</button>
+      </div>
+
+      <!-- Status pills -->
+      <div class="status-pills" id="leads-status-pills"></div>
+
+      <!-- Leads Table -->
+      <div class="card table-card">
+        <div class="table-wrap">
+          <table class="table" id="leads-table">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="select-all-leads" /></th>
+                <th>Handle</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Step</th>
+                <th>Next Follow-up</th>
+                <th>Notes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leads-tbody">
+              <tr><td colspan="8" class="empty-state">Loading leads...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="leads-pagination"></div>
+      </div>
+    </div>
+
+    <!-- ═══ TEMPLATES PAGE ═══ -->
+    <div class="page" id="page-templates">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Templates</h1>
+          <p class="page-subtitle">Craft and manage your message templates</p>
+        </div>
+        <button class="btn btn-primary" id="btn-add-template">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Template
+        </button>
+      </div>
+      <div class="templates-grid" id="templates-grid">
+        <div class="empty-state">Loading templates...</div>
+      </div>
+    </div>
+
+    <!-- ═══ SEQUENCES PAGE ═══ -->
+    <div class="page" id="page-sequences">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Sequences</h1>
+          <p class="page-subtitle">Configure your follow-up timing</p>
+        </div>
+      </div>
+      <div class="sequences-list" id="sequences-list">
+        <div class="empty-state">Loading sequences...</div>
+      </div>
+    </div>
+
+    <!-- ═══ AUTOMATION PAGE ═══ -->
+    <div class="page" id="page-automation">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Automation</h1>
+          <p class="page-subtitle">Browser control &amp; scheduler management</p>
+        </div>
+      </div>
+
+      <div class="automation-grid">
+        <!-- Browser Control -->
+        <div class="card">
+          <div class="card-header"><h2 class="card-title">🌐 Browser Control</h2></div>
+          <div class="card-body">
+            <div class="status-row" id="browser-status-row">
+              <span class="status-dot" id="browser-dot"></span>
+              <span id="browser-status-text">Checking...</span>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline" id="btn-launch-browser">Launch Browser</button>
+              <button class="btn btn-primary" id="btn-login">Login to 𝕏</button>
+              <button class="btn btn-danger" id="btn-close-browser">Close Browser</button>
+            </div>
+            <div class="info-box">
+              <strong>How it works:</strong> Click "Launch Browser" to open a Chromium window, then "Login to 𝕏" to navigate to the login page. Log in manually in the browser — your session will be saved for future runs.
+            </div>
+          </div>
+        </div>
+
+        <!-- Scheduler Control -->
+        <div class="card">
+          <div class="card-header"><h2 class="card-title">⏰ Scheduler</h2></div>
+          <div class="card-body">
+            <div class="status-row">
+              <span class="status-dot" id="sched-dot-auto"></span>
+              <span id="sched-status-text">Checking...</span>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-outline" id="btn-pause-sched">⏸ Pause</button>
+              <button class="btn btn-primary" id="btn-resume-sched">▶ Resume</button>
+              <button class="btn btn-accent" id="btn-trigger-now">⚡ Trigger Now</button>
+            </div>
+            <div class="info-box">
+              Scheduler checks for due follow-ups every 5 minutes. Use "Trigger Now" to process immediately.
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode Control -->
+        <div class="card">
+          <div class="card-header"><h2 class="card-title">⚙️ Mode</h2></div>
+          <div class="card-body">
+            <div class="mode-toggle-wrap">
+              <div class="mode-option" id="mode-dry">
+                <div class="mode-icon">🧪</div>
+                <div class="mode-info">
+                  <strong>Dry Run</strong>
+                  <span>Simulates sending without actually DMing anyone. Safe for testing.</span>
+                </div>
+              </div>
+              <div class="mode-option" id="mode-live">
+                <div class="mode-icon">🚀</div>
+                <div class="mode-info">
+                  <strong>Live Mode</strong>
+                  <span>Sends real DMs. Edit <code>.env</code> and set <code>MODE=live</code>, then restart.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rate Limiter Status -->
+        <div class="card">
+          <div class="card-header"><h2 class="card-title">📊 Rate Limiter</h2></div>
+          <div class="card-body" id="rate-limiter-body">
+            <div class="empty-state">Loading...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Import DM Contacts -->
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header"><h2 class="card-title">📥 Import Contacts from 𝕏 DMs</h2></div>
+        <div class="card-body">
+          <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:1rem">Scrape all your existing DM conversations and import the contacts as leads. Requires browser to be launched and logged in.</p>
+          <div class="btn-group">
+            <button class="btn btn-primary" id="btn-scrape-dms-auto">📥 Scrape & Import DM Contacts</button>
+          </div>
+          <div id="scrape-result" style="margin-top:1rem"></div>
+        </div>
+      </div>
+
+      <!-- Send Test DM -->
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header"><h2 class="card-title">📤 Send Test DM</h2></div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>X Handle (without @)</label>
+              <input type="text" class="form-input" id="test-dm-handle" placeholder="johndoe" />
+            </div>
+            <div class="form-group" style="flex:2">
+              <label>Message</label>
+              <input type="text" class="form-input" id="test-dm-message" placeholder="Hey, just testing my automation setup!" />
+            </div>
+            <button class="btn btn-primary" id="btn-send-test-dm" style="align-self:flex-end">Send</button>
+          </div>
+          <div id="test-dm-result"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══ MODALS ═══ -->
+
+  <!-- Add/Edit Lead Modal -->
+  <div class="modal-overlay" id="modal-lead">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-lead-title">Add Lead</h3>
+        <button class="modal-close" data-close="modal-lead">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="lead-id" />
+        <div class="form-group">
+          <label>X Handle *</label>
+          <input type="text" class="form-input" id="lead-handle" placeholder="@johndoe" />
+        </div>
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" class="form-input" id="lead-name" placeholder="John Doe" />
+        </div>
+        <div class="form-group">
+          <label>Notes / Personalization</label>
+          <textarea class="form-input" id="lead-notes" rows="3" placeholder="What do they do? What's your hook? e.g. 'AI founder, tweet about productivty'"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Tags (comma separated)</label>
+          <input type="text" class="form-input" id="lead-tags" placeholder="saas, founder, ai" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" data-close="modal-lead">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-lead">Save Lead</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Template Modal -->
+  <div class="modal-overlay" id="modal-template">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h3 id="modal-template-title">New Template</h3>
+        <button class="modal-close" data-close="modal-template">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="template-id" />
+        <div class="form-group">
+          <label>Template Name *</label>
+          <input type="text" class="form-input" id="template-name" placeholder="e.g. Initial Outreach" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select class="form-input" id="template-category">
+            <option value="outreach">Outreach</option>
+            <option value="followup">Follow-up</option>
+            <option value="general">General</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message Content *</label>
+          <div class="variables-hint">Variables: <code>{firstName}</code> <code>{handle}</code> <code>{topic}</code> <code>{customNote}</code></div>
+          <textarea class="form-input" id="template-content" rows="8" placeholder="Hey {firstName}! ..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Preview</label>
+          <div class="template-preview" id="template-preview">Start typing to see preview...</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" data-close="modal-template">Cancel</button>
+        <button class="btn btn-primary" id="btn-save-template">Save Template</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSV Import Modal -->
+  <div class="modal-overlay" id="modal-import">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Import Leads from CSV</h3>
+        <button class="modal-close" data-close="modal-import">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="info-box">
+          <strong>CSV Format:</strong><br/>
+          <code>x_handle,display_name,notes,tags</code><br/>
+          <code>johndoe,John Doe,"AI founder","saas;founder"</code>
+        </div>
+        <div class="form-group" style="margin-top:1rem">
+          <label>Paste CSV content below</label>
+          <textarea class="form-input" id="csv-input" rows="10" placeholder="x_handle,display_name,notes,tags&#10;johndoe,John Doe,AI founder interested in automation,saas;founder&#10;janedoe,Jane Doe,Marketing expert,marketing"></textarea>
+        </div>
+        <div id="import-result"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" data-close="modal-import">Cancel</button>
+        <button class="btn btn-primary" id="btn-do-import">Import</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

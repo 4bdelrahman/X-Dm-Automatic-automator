@@ -1,0 +1,22 @@
+{
+  "name": "x-followups",
+  "version": "1.0.0",
+  "description": "X.com DM Follow-up Automation System",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "setup-browser": "npx playwright install chromium",
+    "import": "node scripts/import-leads.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "sql.js": "^1.11.0",
+    "playwright": "^1.49.0",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.4.5",
+    "cors": "^2.8.5",
+    "uuid": "^10.0.0"
+  }
+}
