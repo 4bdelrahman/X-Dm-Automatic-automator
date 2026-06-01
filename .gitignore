@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.npm
+
+# Environment variables — NEVER COMMIT THESE
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+frontend/.env.local
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Railway & Vercel
+.railway/
+.vercel/
